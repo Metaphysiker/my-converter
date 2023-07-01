@@ -4,8 +4,6 @@ services:
     build: ./vue
     volumes:
     - ./vue/vue-app/src:/vue/vue-app/src
-    ports:
-    - "8080:8080"
   npm:
     build: ./npm
     volumes:
@@ -13,4 +11,4 @@ services:
   nginx:
     build: ./nginx
     ports:
-    - "8082:80"
+    - "8080:80"
