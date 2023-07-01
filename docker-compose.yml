@@ -6,3 +6,7 @@ services:
     - ./vue/vue-app/src:/vue/vue-app/src
     ports:
     - "8080:8080"
+  npm:
+    build: ./npm
+    volumes:
+    - ./vue/vue-app:/vue/vue-app
