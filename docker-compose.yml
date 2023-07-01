@@ -10,3 +10,7 @@ services:
     build: ./npm
     volumes:
     - ./vue/vue-app:/vue/vue-app
+  nginx:
+    build: ./nginx
+    ports:
+    - "8082:80"
