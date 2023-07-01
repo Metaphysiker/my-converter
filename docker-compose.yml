@@ -3,7 +3,7 @@ services:
   vue:
     build: ./vue
     volumes:
-    - ./vue:/vue
+    - ./vue/vue-app:/vue/vue-app
     ports:
     - "8080:8080"
   vue_develop:
@@ -11,6 +11,6 @@ services:
     stdin_open: true
     tty: true
     volumes:
-    - ./vue:/app
+    - ./vue/vue-app:/vue/vue-app
     user: "${UID}:${GID}"
     profiles: ["development"]
