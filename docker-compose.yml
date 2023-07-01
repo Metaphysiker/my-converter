@@ -6,11 +6,3 @@ services:
     - ./vue/vue-app/src:/vue/vue-app/src
     ports:
     - "8080:8080"
-  vue_develop:
-    build: ./vue_develop
-    stdin_open: true
-    tty: true
-    volumes:
-    - ./vue/vue-app:/vue/vue-app
-    user: "${UID}:${GID}"
-    profiles: ["development"]
