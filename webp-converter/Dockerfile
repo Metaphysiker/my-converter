@@ -2,8 +2,8 @@ FROM debian:buster
 RUN apt-get update && \
  apt-get install -y webp && \
  apt-get install -y imagemagick
-WORKDIR /app
-COPY code /app
+WORKDIR /code
+COPY code /code
 
 RUN apt-get update
 RUN apt-get -y install curl gnupg
@@ -12,10 +12,10 @@ RUN apt-get -y install nodejs
 
 EXPOSE 3000
 
-WORKDIR /app/express
+WORKDIR /code/express
 
 RUN npm install
 
-WORKDIR /app
+WORKDIR /code
 
 CMD ["./npm-start.sh"]

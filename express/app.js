@@ -18,7 +18,7 @@ const port = process.env.PORT || 8081
 app.get('/', async (req, res) => {
 
   try {
-    fetch('http://webp-converter:3000')
+    fetch('http://webp-converter:3000/')
       .then(response => response.json())
       .then(json => console.log(json))
   } catch (error) {
@@ -44,7 +44,17 @@ app.post('/upload_image', async (req, res) => {
           console.log(image);
 
           //Use the mv() method to place the file in the upload directory (i.e. "uploads")
-          //avatar.mv('./uploads/' + avatar.name);
+          image.mv('./shared-volume/' + image.name);
+
+          var response = await fetch("http://webp-converter:3000/convert_image", {
+            method: "POST",
+            body: JSON.stringify({
+              email: "my-email",
+              firstname: "sandro"
+            })
+          })
+
+          console.log(response);
 
           //send response
           res.send({

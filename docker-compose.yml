@@ -3,31 +3,27 @@ services:
   express:
     build: ./express
     volumes:
-    - images:/images
-    - converted-images:/converted-images
+      - shared-volume:/app/shared-volume
   vue:
     build: ./vue
     volumes:
-    - ./vue/vue-app/src:/vue/vue-app/src
+      - ./vue/vue-app/src:/vue/vue-app/src
   npm:
     build: ./npm
     volumes:
-    - ./:/app
-    user: "${UID}:${GID}"
+      - ./:/app
     profiles:
-      - "development"
+      - development
+    user: "${UID}:${GID}"
   nginx:
     build: ./nginx
     ports:
-    - "8080:8080"
-    - "8081:8081"
+      - "8080:8080"
+      - "8081:8081"
   webp-converter:
     build: ./webp-converter
     volumes:
-    - images:/images
-    - converted-images:/converted-images
+      - shared-volume:/code/shared-volume
 
 volumes:
-  images:
-  converted-images:
-  movies:
+  shared-volume:

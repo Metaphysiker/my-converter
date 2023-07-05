@@ -19,6 +19,13 @@ app.get('/', (req, res) => {
   })
 })
 
+app.post('/convert_image', async (req, res) => {
+  console.log(req.body)
+  res.json({
+    message: "reqy"
+  })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
