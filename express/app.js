@@ -42,18 +42,19 @@ app.post('/upload_image', async (req, res) => {
           let image = req.files.image;
 
           console.log(image);
-
+          let data = {
+            "name": "Sandro"
+          }
           //Use the mv() method to place the file in the upload directory (i.e. "uploads")
           image.mv('./shared-volume/' + image.name);
-
+          console.log("BEFORE! BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
           var response = await fetch("http://webp-converter:3000/convert_image", {
             method: "POST",
-            body: JSON.stringify({
-              email: "my-email",
-              firstname: "sandro"
-            })
+            body: JSON.stringify({a: 1, b: 2}),
+            headers: {
+              "Content-Type": "application/json",
+            },
           })
-
           console.log(response);
 
           //send response
