@@ -1,5 +1,7 @@
 FROM debian:buster
-RUN apt-get update && apt-get install -y webp
+RUN apt-get update && \
+ apt-get install -y webp && \
+ apt-get install -y imagemagick
 WORKDIR /app
 COPY code /app
 
@@ -10,10 +12,10 @@ RUN apt-get -y install nodejs
 
 EXPOSE 3000
 
-#ENTRYPOINT ["/bin/bash"]
-
 WORKDIR /app/express
 
 RUN npm install
 
-CMD ["npm", "start"]
+WORKDIR /app
+
+CMD ["./npm-start.sh"]

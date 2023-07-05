@@ -7,8 +7,13 @@ const port = 3000
 
 app.get('/', (req, res) => {
   console.log("swwwwwwwwwwwwwwwaaaaaaaaaaaaaaggg")
-  res.json({
-    message: "Welcome to webp-converter"
+  exec('identify -version', (err, stdout, stderr) => {
+    if (err) {
+      console.error(`exec error: ${err}`);
+      return;
+    }
+
+    console.log(`${stdout}`);
   });
 })
 
