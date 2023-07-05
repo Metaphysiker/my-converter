@@ -3,6 +3,7 @@ services:
   express:
     build: ./express
     volumes:
+      - ./express/src/:/app/src
       - shared-volume:/app/shared-volume
   vue:
     build: ./vue
@@ -23,7 +24,8 @@ services:
   webp-converter:
     build: ./webp-converter
     volumes:
-      - shared-volume:/code/shared-volume
+      - ./webp-converter/code/express/src:/code/express/src
+      - shared-volume:/code/express/shared-volume
 
 volumes:
   shared-volume:
