@@ -1,5 +1,10 @@
 version: "3.8"
 services:
+  express:
+    build: ./express
+    volumes:
+    - images:/images
+    - converted-images:/converted-images
   vue:
     build: ./vue
     volumes:
@@ -7,8 +12,22 @@ services:
   npm:
     build: ./npm
     volumes:
-    - ./vue/vue-app:/vue/vue-app
+    - ./:/app
+    user: "${UID}:${GID}"
+    profiles:
+      - "development"
   nginx:
     build: ./nginx
     ports:
     - "8080:8080"
+    - "8081:8081"
+  webp-converter:
+    build: ./webp-converter
+    volumes:
+    - images:/images
+    - converted-images:/converted-images
+
+volumes:
+  images:
+  converted-images:
+  movies:

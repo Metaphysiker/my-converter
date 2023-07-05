@@ -1,5 +1,5 @@
 FROM node:20-alpine
 
-WORKDIR /vue/vue-app
+WORKDIR /app
 
-COPY . /vue/vue-app
+COPY . /app

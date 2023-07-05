@@ -20,14 +20,25 @@ Say Hello World with Vue!
 
 <script setup>
 import { ref } from 'vue'
-import _ from 'lodash';
 // A "ref" is a reactive data source that stores a value.
 // Technically, we don't need to wrap the string with ref()
 // in order to display it, but we will see in the next
 // example why it is needed if we ever intend to change
 // the value.
-const result = _.capitalize("mccrazy");
 const message = ref('Hello World!')
-console.log("swag");
-console.log(result);
+
+import { onMounted } from 'vue'
+
+onMounted(() => {
+
+  console.log(`the component is now mounted.`)
+  hello();
+})
+
+const hello = async () => {
+    const response = await fetch("http://localhost:8081");
+    response.text().then((message)=>{
+        console.log(message);
+    })
+}
 </script>
