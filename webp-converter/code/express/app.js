@@ -14,6 +14,9 @@ app.get('/', (req, res) => {
 
     console.log(`${stdout}`);
   });
+  res.json({
+    message: "swag"
+  })
 })
 
 app.listen(port, () => {

@@ -1,8 +1,19 @@
 const express = require('express')
 const app = express()
 var cors = require('cors')
-app.use(cors())
-const port = 8081
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
+const _ = require('lodash');
+
+app.use(cors());
+
+// enable files upload
+app.use(fileUpload({
+  createParentPath: true
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+const port = process.env.PORT || 8081
 
 app.get('/', async (req, res) => {
 
@@ -17,6 +28,39 @@ app.get('/', async (req, res) => {
 
   res.send('Hello World!')
 })
+
+app.post('/upload_image', async (req, res) => {
+  try {
+      if(!req.files) {
+          res.send({
+              status: false,
+              message: 'No file uploaded'
+          });
+      } else {
+        console.log(req.files);
+          //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+          let image = req.files.image;
+
+          console.log(image);
+
+          //Use the mv() method to place the file in the upload directory (i.e. "uploads")
+          //avatar.mv('./uploads/' + avatar.name);
+
+          //send response
+          res.send({
+              status: true,
+              message: 'File is uploaded',
+              data: {
+                  name: image.name,
+                  mimetype: image.mimetype,
+                  size: image.size
+              }
+          });
+      }
+  } catch (err) {
+      res.status(500).send(err);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

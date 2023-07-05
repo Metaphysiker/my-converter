@@ -1,15 +1,18 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <InfoCard></InfoCard>
+  <UploadImage></UploadImage>
 </template>
 
 <script>
 import InfoCard from './components/InfoCard.vue'
+import UploadImage from './components/UploadImage.vue'
 
 export default {
   name: 'App',
   components: {
-    InfoCard
+    InfoCard,
+    UploadImage
   }
 }
 </script>
