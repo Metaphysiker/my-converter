@@ -1,11 +1,10 @@
 <script setup>
-//import { ref } from 'vue'
+import { ref } from 'vue'
 
-function uploadImage() {
-    var fileField = document.getElementById("image");
-    var firstFile = fileField.files[0];
-    console.log(firstFile);
-    postImageToBackend(firstFile)
+const imageSource = ref("");
+
+function fileAdded(event){
+  postImageToBackend(event.target.files[0])
 }
 
 function postImageToBackend(file){
@@ -20,10 +19,16 @@ return new Promise(function(final_resolve){
     method: "POST",
     body: formData
   })
-  .then((response) => {
-    console.log(response);
-    final_resolve(response);
+  .then((response) => response.json())
+  .then((json) => {
+    {
+    console.log(json);
+    imageSource.value = json.new_file_name;
+    final_resolve(json);
+  }
   })
+
+
 
 })
 }
@@ -34,12 +39,12 @@ return new Promise(function(final_resolve){
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <input type="file" name="image" id="image" accept="image/png, image/jpeg, image/webp, image/gif">
+                <input @change="fileAdded" type="file" name="image" id="image" accept="image/png, image/jpeg, image/webp, image/gif">
             </div>
             <div class="col-6">
-                placeholder
+              <img v-bind:src="'http://localhost:8081/shared-volume/' + imageSource" style="width:100%;">
+
             </div>
         </div>
     </div>
-	<button @click="uploadImage">Upload</button>
 </template>

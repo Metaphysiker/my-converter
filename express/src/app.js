@@ -13,6 +13,9 @@ app.use(fileUpload({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use('/shared-volume', express.static('/app/shared-volume'))
+app.use(express.static(__dirname + '/public'))
+
 const port = process.env.PORT || 8081
 
 app.get('/', async (req, res) => {
@@ -27,14 +30,8 @@ app.post('/upload_image', async (req, res) => {
               message: 'No file uploaded'
           });
       } else {
-        console.log(req.files);
           //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
           let image = req.files.image;
-
-          //console.log(image);
-          let data = {
-            "name": "Sandro"
-          }
           //Use the mv() method to place the file in the upload directory (i.e. "uploads")
           image.mv('./shared-volume/' + image.name);
           var response = await fetch("http://webp-converter:3000/convert_image", {
@@ -44,20 +41,22 @@ app.post('/upload_image', async (req, res) => {
               "Content-Type": "application/json",
             },
           })
-          response.json().then((result) =>{
+
+          response.json().then((result) => {
             console.log(result);
+
+              //send response
+              res.send({
+                status: true,
+                message: 'File is uploaded',
+                new_file_name: result.new_file_name
+            });
+          },
+          (error) => {
+            res.status(500).send(err);
           })
 
-          //send response
-          res.send({
-              status: true,
-              message: 'File is uploaded',
-              data: {
-                  name: image.name,
-                  mimetype: image.mimetype,
-                  size: image.size
-              }
-          });
+
       }
   } catch (err) {
       res.status(500).send(err);
