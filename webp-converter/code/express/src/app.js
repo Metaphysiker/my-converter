@@ -2,7 +2,10 @@ const express = require('express')
 const app = express()
 const { exec } = require('child_process');
 const bodyParser = require('body-parser');
-var cors = require('cors')
+const path = require("path");
+const WebpConverter = require("./classes/WebpConverter.js");
+const fs = require('fs');
+var cors = require('cors');
 app.use(cors())
 app.use(bodyParser.json());
 const port = 3000
@@ -22,26 +25,22 @@ app.get('/', (req, res) => {
 })
 
 app.post('/convert_image', (req, res) => {
-  console.log(req.body);
-  console.log("SWWWAAAAAGGGG")
-  exec(`ls`, (err, stdout, stderr) => {
-    if (err) {
-      console.error(`exec error: ${err}`);
-      return;
-    }
-    console.log(`${stdout}`);
-  });
+  console.log("convert_image");
 
-  exec(`cd shared-volume && convert ${req.body.imageName} new.webp`, (err, stdout, stderr) => {
-    if (err) {
-      console.error(`exec error: ${err}`);
-      return;
-    }
-    console.log(`${stdout}`);
-  });
-
-  res.json({
-    message: "reqy"
+  const webpConverter = new WebpConverter();
+  webpConverter.convertFileToWebp(req.body.imageName)
+  .then((result) => {
+    console.log("success");
+    res.json({
+      message: "success",
+      new_file_name: result
+    })
+  },
+  (error) => {
+    console.log("error");
+    res.json({
+      message: error,
+    })
   })
 })
 

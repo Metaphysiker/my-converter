@@ -16,16 +16,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 const port = process.env.PORT || 8081
 
 app.get('/', async (req, res) => {
-
-  try {
-    fetch('http://webp-converter:3000/')
-      .then(response => response.json())
-      .then(json => console.log(json))
-  } catch (error) {
-    // TypeError: Failed to fetch
-    console.log('There was an error', error);
-  }
-
   res.send('Hello World!')
 })
 
@@ -41,7 +31,7 @@ app.post('/upload_image', async (req, res) => {
           //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
           let image = req.files.image;
 
-          console.log(image);
+          //console.log(image);
           let data = {
             "name": "Sandro"
           }
