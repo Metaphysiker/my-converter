@@ -4,9 +4,9 @@ var cors = require('cors')
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
-
+const FileRenamer = require("./classes/FileRenamer.js");
+const fs = require('fs')
 app.use(cors());
-
 // enable files upload
 app.use(fileUpload({
   createParentPath: true
@@ -23,6 +23,7 @@ app.get('/', async (req, res) => {
 })
 
 app.post('/upload_image', async (req, res) => {
+  console.log("upload_image")
   try {
       if(!req.files) {
           res.send({
@@ -33,18 +34,24 @@ app.post('/upload_image', async (req, res) => {
           //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
           let image = req.files.image;
           //Use the mv() method to place the file in the upload directory (i.e. "uploads")
-          image.mv('./shared-volume/' + image.name);
+          let imageName = image.name;
+          let fileRenamer = new FileRenamer()
+          imageName = fileRenamer.constructAvailableNameForFile(imageName);
+          image.mv('./shared-volume/' + imageName);
+
           var response = await fetch("http://webp-converter:3000/convert_image", {
             method: "POST",
-            body: JSON.stringify({imageName: image.name}),
+            body: JSON.stringify({imageName: imageName}),
             headers: {
               "Content-Type": "application/json",
             },
           })
 
           response.json().then((result) => {
-            console.log(result);
-
+              fs.unlink('./shared-volume/' + imageName, function(err){
+                if (err) throw err;
+                console.log('file deleted.');
+              });
               //send response
               res.send({
                 status: true,
@@ -55,8 +62,6 @@ app.post('/upload_image', async (req, res) => {
           (error) => {
             res.status(500).send(err);
           })
-
-
       }
   } catch (err) {
       res.status(500).send(err);
