@@ -22,6 +22,44 @@ app.get('/', async (req, res) => {
   res.send('Hello World!')
 })
 
+app.get('/remove_all_files', async (req, res) => {
+  fs.readdir('./shared-volume/', (error, files) => {
+    if (error) {
+      console.log(error);
+      res.send({
+        status: false,
+        message: error
+    });
+    } else {
+      for (const file of files) {
+        fs.unlink('./shared-volume/' + file, (err) => {
+          if (err) throw err;
+        });
+      }
+      res.send({
+        status: true,
+        message: "files have been removed."
+    });
+    }
+  });
+})
+
+app.get('/number_of_files', async (req, res) => {
+  fs.readdir('./shared-volume/', (error, files) => {
+    if (error) {
+      res.send({
+        status: false,
+        message: error
+    });
+    } else {
+      res.send({
+        status: true,
+        number_of_files: files.length
+    });
+    }
+  });
+})
+
 app.post('/upload_image', async (req, res) => {
   console.log("upload_image")
   try {

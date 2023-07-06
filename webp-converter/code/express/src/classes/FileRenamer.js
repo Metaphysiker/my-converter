@@ -13,12 +13,11 @@ class FileRenamer {
             appendix += 1;
             newFileName = this.constructNewFileName(fileName, appendix, ".webp");
           }
-        console.log(newFileName)
         return newFileName;
     }
 
     constructAvailableNameForFile(fileName){
-        let extension = path.extname(fileName) // .css
+        let extension = path.extname(fileName)
         let appendix = 0;
         let newFileName = this.constructNewFileName(fileName, appendix, extension);
         while (this.doesFileAlreadyExist(newFileName)) {

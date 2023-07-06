@@ -8,6 +8,7 @@ class FileRenamer {
     constructAvailableNameForFile(fileName){
         let extension = path.extname(fileName)
         let appendix = 0;
+        fileName = this.string_parameterize(fileName)
         let newFileName = this.constructNewFileName(fileName, appendix, extension);
         while (this.doesFileAlreadyExist(newFileName)) {
             appendix += 1;
@@ -24,6 +25,10 @@ class FileRenamer {
     doesFileAlreadyExist(fileName){
         return fs.existsSync('./shared-volume/' + fileName)
     }
+
+    string_parameterize = function (str1) {
+        return str1.trim().toLowerCase().replace(/[^a-zA-Z0-9 -]/, "").replace(/\s/g, "-");
+    };
 
   }
 

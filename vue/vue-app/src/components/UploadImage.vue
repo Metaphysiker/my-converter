@@ -22,7 +22,6 @@ return new Promise(function(final_resolve){
   .then((response) => response.json())
   .then((json) => {
     {
-    console.log(json);
     imageSource.value = json.new_file_name;
     final_resolve(json);
   }
@@ -32,19 +31,23 @@ return new Promise(function(final_resolve){
 
 })
 }
-
 </script>
 
 <template>
     <div class="container">
+      <div class="card my-2">
+      <div class="card-body">
         <div class="row">
             <div class="col-6">
                 <input @change="fileAdded" type="file" name="image" id="image" accept="image/png, image/jpeg, image/webp, image/gif">
             </div>
             <div class="col-6">
-              <img v-bind:src="'http://localhost:8081/shared-volume/' + imageSource" style="width:100%;">
-
+              <div v-if="imageSource">
+                <img v-bind:src="'http://localhost:8081/shared-volume/' + imageSource" style="width:100%;">
+              </div>
             </div>
         </div>
+      </div>
+    </div>
     </div>
 </template>

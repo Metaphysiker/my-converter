@@ -32,13 +32,15 @@ import { onMounted } from 'vue'
 onMounted(() => {
 
   console.log(`the component is now mounted.`)
-  hello();
+  //hello();
 })
 
+/*
 const hello = async () => {
     const response = await fetch("http://localhost:8081");
     response.text().then((message)=>{
         console.log(message);
     })
 }
+*/
 </script>
