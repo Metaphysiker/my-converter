@@ -1,5 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
+
+const emit = defineEmits(['fileUploaded'])
 
 const imageSource = ref("");
 
@@ -23,6 +25,7 @@ return new Promise(function(final_resolve){
   .then((json) => {
     {
     imageSource.value = json.new_file_name;
+    emit('fileUploaded')
     final_resolve(json);
   }
   })

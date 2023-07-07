@@ -1,19 +1,17 @@
 <template>
   <InfoCard></InfoCard>
-  <UploadImage></UploadImage>
-  <UploadImage></UploadImage>
-  <UploadImage></UploadImage>
+  <UploadController></UploadController>
 </template>
 
 <script>
 import InfoCard from './components/InfoCard.vue'
-import UploadImage from './components/UploadImage.vue'
+import UploadController from './components/UploadController.vue'
 
 export default {
   name: 'App',
   components: {
     InfoCard,
-    UploadImage
+    UploadController
   }
 }
 </script>

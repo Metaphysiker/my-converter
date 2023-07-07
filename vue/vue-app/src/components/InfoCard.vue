@@ -4,10 +4,7 @@
             <div class="card">
             <div class="card-body">
                 <h5 class="card-title">My Converter</h5>
-                <p>
-                    {{ message }}
-                </p>
-                <p class="card-text">Convert images to webp and videos to webm.</p>
+                <p class="card-text">Convert images to webp</p>
             </div>
         </div>
     </div>
@@ -19,13 +16,12 @@ Say Hello World with Vue!
 -->
 
 <script setup>
-import { ref } from 'vue'
+//import { ref } from 'vue'
 // A "ref" is a reactive data source that stores a value.
 // Technically, we don't need to wrap the string with ref()
 // in order to display it, but we will see in the next
 // example why it is needed if we ever intend to change
 // the value.
-const message = ref('Hello World!')
 
 import { onMounted } from 'vue'
 
