@@ -1,63 +1,73 @@
 <script setup>
-import { ref, defineEmits, defineProps } from 'vue'
+import { ref, defineEmits, defineProps } from "vue";
 
 const props = defineProps({
-    quality: {
-        type: Number,
-        default: 75
-    }
+  quality: {
+    type: Number,
+    default: 75,
+  },
 });
-const emit = defineEmits(['fileUploaded'])
+
+const emit = defineEmits(["fileUploaded"]);
 
 const imageSource = ref("");
 
-function fileAdded(event){
-  postImageToBackend(event.target.files[0])
+function fileAdded(event) {
+  postImageToBackend(event.target.files[0]);
 }
 
-function postImageToBackend(file){
-return new Promise(function(final_resolve){
+function postImageToBackend(file) {
+  return new Promise(function (final_resolve) {
+    var formData = new FormData();
+    if (file) {
+      formData.append("image", file);
+      formData.append("quality", props.quality);
+    }
 
-  var formData = new FormData();
-  if(file){
-    formData.append("image", file);
-    formData.append("quality", props.quality)
-  }
-
-  fetch("http://localhost:8081/upload_image", {
-    method: "POST",
-    body: formData
-  })
-  .then((response) => response.json())
-  .then((json) => {
-    {
-    imageSource.value = json.new_file_name;
-    emit('fileUploaded')
-    final_resolve(json);
-  }
-  })
-
-
-
-})
+    fetch("http://localhost:8081/upload_image", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        {
+          imageSource.value = json.new_file_name;
+          emit("fileUploaded");
+          final_resolve(json);
+        }
+      });
+  });
 }
 </script>
 
 <template>
-    <div class="container">
-      <div class="card my-2">
+  <div class="container">
+    <div class="card my-2">
       <div class="card-body">
+        {{ quality }}
+
         <div class="row">
-            <div class="col-6">
-                <input @change="fileAdded" type="file" name="image" id="image" accept="image/png, image/jpeg, image/webp, image/gif">
+          <div class="col-6">
+            <input
+              @change="fileAdded"
+              type="file"
+              name="image"
+              id="image"
+              accept="image/png, image/jpeg, image/webp, image/gif"
+            />
+          </div>
+          <div class="col-6">
+            <div v-if="imageSource">
+              <img
+                v-bind:src="
+                  'http://localhost:8081/shared-volume/' + imageSource
+                "
+                style="width: 100%"
+              />
             </div>
-            <div class="col-6">
-              <div v-if="imageSource">
-                <img v-bind:src="'http://localhost:8081/shared-volume/' + imageSource" style="width:100%;">
-              </div>
-            </div>
+          </div>
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
