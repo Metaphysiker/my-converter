@@ -79,7 +79,7 @@ app.post('/upload_image', async (req, res) => {
 
           var response = await fetch("http://webp-converter:3000/convert_image", {
             method: "POST",
-            body: JSON.stringify({imageName: imageName}),
+            body: JSON.stringify({imageName: imageName, quality: 75}),
             headers: {
               "Content-Type": "application/json",
             },

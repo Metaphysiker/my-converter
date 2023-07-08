@@ -28,7 +28,7 @@ app.post('/convert_image', (req, res) => {
   console.log("convert_image");
 
   const webpConverter = new WebpConverter();
-  webpConverter.convertFileToWebp(req.body.imageName)
+  webpConverter.convertFileToWebp(req.body.imageName, req.body.quality)
   .then((result) => {
     console.log("success");
     res.json({

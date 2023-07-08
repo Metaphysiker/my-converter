@@ -44,6 +44,6 @@ function removeAllFiles(){
     </div>
 
     <div v-for="i in uploadImageComponentCount" :key="i">
-            <UploadImage @fileUploaded="fileUploaded()"></UploadImage>
+            <UploadImage @fileUploaded="fileUploaded()" quality=1></UploadImage>
         </div>
 </template>

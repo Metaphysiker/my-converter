@@ -1,6 +1,12 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, defineProps } from 'vue'
 
+const props = defineProps({
+    quality: {
+        type: Number,
+        default: 75
+    }
+});
 const emit = defineEmits(['fileUploaded'])
 
 const imageSource = ref("");
@@ -15,6 +21,7 @@ return new Promise(function(final_resolve){
   var formData = new FormData();
   if(file){
     formData.append("image", file);
+    formData.append("quality", props.quality)
   }
 
   fetch("http://localhost:8081/upload_image", {
