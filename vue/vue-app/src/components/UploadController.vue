@@ -7,7 +7,7 @@ import FileService from "../services/FileService.js";
 
 const fileService = new FileService();
 const number_of_files = ref(0);
-const uploadImageComponentCount = ref(1);
+const uploadImageComponentArray = ref([0]);
 const quality = ref(75);
 const fileNames = ref([]);
 
@@ -29,6 +29,7 @@ function updateNumberOfFiles() {
 function fileUploaded() {
   updateNumberOfFiles();
   getFileNames();
+  uploadImageComponentArray.value[0] = uploadImageComponentArray.value[0] + 1;
 }
 
 function getFileNames() {
@@ -67,7 +68,7 @@ function removeAllFiles() {
     </div>
   </div>
 
-  <div v-for="i in uploadImageComponentCount" :key="i">
+  <div v-for="i in uploadImageComponentArray" :key="i">
     <UploadImage
       @fileUploaded="fileUploaded()"
       :quality="quality"

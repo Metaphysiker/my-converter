@@ -17,7 +17,7 @@ const props = defineProps({
       </div>
     </div>
     <div class="col-md-8">
-      <img v-bind:src="'http://localhost:8081/shared-volume/' + props.fileName" class="img-fluid rounded-start" alt="...">>
+      <img v-bind:src="'http://localhost:8081/shared-volume/' + props.fileName" class="img-fluid rounded-start" alt="...">
     </div>
   </div>
 </div>

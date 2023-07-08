@@ -11,6 +11,8 @@ const props = defineProps({
 const emit = defineEmits(["fileUploaded"]);
 
 const imageSource = ref("");
+const fileInput = ref(null)
+
 
 function fileAdded(event) {
   postImageToBackend(event.target.files[0]);
@@ -48,6 +50,7 @@ function postImageToBackend(file) {
           <div class="col-6">
             <input
               @change="fileAdded"
+              ref="fileInput"
               type="file"
               name="image"
               id="image"
