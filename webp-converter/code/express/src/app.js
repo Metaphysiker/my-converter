@@ -16,8 +16,6 @@ app.get('/', (req, res) => {
       console.error(`exec error: ${err}`);
       return;
     }
-
-    console.log(`${stdout}`);
   });
   res.json({
     message: "swag"
@@ -30,7 +28,6 @@ app.post('/convert_image', (req, res) => {
   const webpConverter = new WebpConverter();
   webpConverter.convertFileToWebp(req.body.imageName, req.body.quality)
   .then((result) => {
-    console.log("success");
     res.json({
       message: "success",
       new_file_name: result

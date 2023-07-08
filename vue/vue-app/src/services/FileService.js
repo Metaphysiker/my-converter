@@ -17,6 +17,20 @@ class FileService {
         })
     }
 
+    getFileNames(){
+      let self = this;
+      return new Promise(function(final_resolve){
+          fetch(self.baseUrl + "get_file_names", {
+              method: "GET",
+            }).then((response) => response.json())
+            .then((json) => {
+              {
+              final_resolve(json);
+            }
+            })
+      })
+  }
+
     removeFile(fileData){
         let self = this;
         return new Promise(function(final_resolve){

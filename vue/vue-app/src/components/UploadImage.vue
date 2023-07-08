@@ -44,8 +44,6 @@ function postImageToBackend(file) {
   <div class="container">
     <div class="card my-2">
       <div class="card-body">
-        {{ quality }}
-
         <div class="row">
           <div class="col-6">
             <input

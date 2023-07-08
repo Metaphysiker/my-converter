@@ -1,15 +1,19 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import UploadImage from "./UploadImage.vue";
+import ImageCard from "./ImageCard.vue";
+
 import FileService from "../services/FileService.js";
 
 const fileService = new FileService();
 const number_of_files = ref(0);
 const uploadImageComponentCount = ref(1);
 const quality = ref(75);
+const fileNames = ref([]);
 
 onMounted(() => {
   updateNumberOfFiles();
+  getFileNames();
 });
 
 const updateQuality = (event) => {
@@ -24,12 +28,19 @@ function updateNumberOfFiles() {
 
 function fileUploaded() {
   updateNumberOfFiles();
-  uploadImageComponentCount.value++;
+  getFileNames();
+}
+
+function getFileNames() {
+  fileService.getFileNames().then((json) => {
+    fileNames.value = json.fileNames;
+  });
 }
 
 function removeAllFiles() {
   fileService.removeAllFiles().then(() => {
     updateNumberOfFiles();
+    getFileNames();
   });
 }
 </script>
@@ -48,8 +59,6 @@ function removeAllFiles() {
             min="1"
             max="100"
             value="75"
-            class="slider"
-            id="myRange"
             @input="updateQuality"
           />
           <p>quality: {{ quality }}</p>
@@ -64,4 +73,11 @@ function removeAllFiles() {
       :quality="quality"
     ></UploadImage>
   </div>
+
+  <div class="container">
+    <div v-for="fileName in fileNames" :key="fileName">
+      <ImageCard :fileName="fileName"></ImageCard>
+    </div>
+  </div>
+
 </template>

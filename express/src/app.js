@@ -5,6 +5,7 @@ const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 const FileRenamer = require("./classes/FileRenamer.js");
+const FileStatsGetter = require("./classes/FileStatsGetter.js");
 const fs = require('fs')
 app.use(cors());
 // enable files upload
@@ -55,6 +56,27 @@ app.get('/number_of_files', async (req, res) => {
       res.send({
         status: true,
         number_of_files: files.length
+    });
+    }
+  });
+})
+
+app.get('/get_file_names', async (req, res) => {
+  let fileNames = [];
+  let fileStatsGetter = new FileStatsGetter();
+  fs.readdir('./shared-volume/', (error, fileNamesInDir) => {
+    if (error) {
+      res.send({
+        status: false,
+        message: error
+    });
+    } else {
+      for(fileName of fileNamesInDir){
+        fileNames.push(fileName);
+      }
+      res.send({
+        status: true,
+        fileNames: fileNames
     });
     }
   });
