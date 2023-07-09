@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import UploadImage from "./UploadImage.vue";
+import UploadImages from "./UploadImages.vue";
+
 import ImageCard from "./ImageCard.vue";
 
 import FileService from "../services/FileService.js";
@@ -29,6 +31,7 @@ function updateNumberOfFiles() {
 function fileUploaded() {
   updateNumberOfFiles();
   getFileNames();
+  console.log("fileUploaded")
   uploadImageComponentArray.value[0] = uploadImageComponentArray.value[0] + 1;
 }
 
@@ -67,6 +70,10 @@ function removeAllFiles() {
       </div>
     </div>
   </div>
+
+  <UploadImages
+      @fileUploaded="fileUploaded()"
+      :quality="quality"></UploadImages>
 
   <div v-for="i in uploadImageComponentArray" :key="i">
     <UploadImage

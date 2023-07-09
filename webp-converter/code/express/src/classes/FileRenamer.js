@@ -29,6 +29,8 @@ class FileRenamer {
     }
 
     constructNewFileName(fileName, appendix, extension){
+        console.log("constructNewFileName")
+        console.log(fileName)
         return path.parse(fileName).name + appendix + extension;
     }
 

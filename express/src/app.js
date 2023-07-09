@@ -128,6 +128,55 @@ app.post('/upload_image', async (req, res) => {
   }
 });
 
+app.post('/upload_images', async (req, res) => {
+  try {
+      if(!req.files) {
+          res.send({
+              status: false,
+              message: 'No file uploaded'
+          });
+      } else {
+
+          let fileNames = [];
+
+          let object_keys = Object.keys(req.files);
+          for(object_key of object_keys){
+            let file = req.files[object_key];
+            let fileName = file.name;
+            let fileRenamer = new FileRenamer()
+            fileName = fileRenamer.constructAvailableNameForFile(fileName);
+            file.mv('./shared-volume/' + fileName);
+            var response = await fetch("http://webp-converter:3000/convert_image", {
+              method: "POST",
+              body: JSON.stringify({fileName: fileName, quality: req.body.quality}),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+
+            response.json().then((result) => {
+              fileNames.push(result.new_file_name);
+
+              fs.unlink('./shared-volume/' + fileName, function(err){
+                if (err) throw err;
+                console.log('file deleted.');
+              });
+            })
+
+          }
+
+          //send response
+          res.send({
+            status: true,
+            message: 'Files are uploaded',
+            new_file_names: fileNames
+          });
+      }
+  } catch (err) {
+      res.status(500).send(err);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
