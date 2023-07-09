@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import UploadImage from "./UploadImage.vue";
 import UploadImages from "./UploadImages.vue";
 
 import ImageCard from "./ImageCard.vue";
@@ -71,15 +70,12 @@ function removeAllFiles() {
     </div>
   </div>
 
-  <UploadImages
-      @fileUploaded="fileUploaded()"
-      :quality="quality"></UploadImages>
+
 
   <div v-for="i in uploadImageComponentArray" :key="i">
-    <UploadImage
+    <UploadImages
       @fileUploaded="fileUploaded()"
-      :quality="quality"
-    ></UploadImage>
+      :quality="quality"></UploadImages>
   </div>
 
   <div class="container">
