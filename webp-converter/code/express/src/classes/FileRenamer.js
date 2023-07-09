@@ -6,7 +6,6 @@ class FileRenamer {
     }
 
     getFileNameWithWebpExtension(fileName){
-        console.log("getFileNameWithWebpExtension")
         let appendix = 0;
         let newFileName = this.constructNewFileName(fileName, appendix, ".webp");
         while (this.doesFileAlreadyExist(newFileName)) {
@@ -29,8 +28,6 @@ class FileRenamer {
     }
 
     constructNewFileName(fileName, appendix, extension){
-        console.log("constructNewFileName")
-        console.log(fileName)
         return path.parse(fileName).name + appendix + extension;
     }
 

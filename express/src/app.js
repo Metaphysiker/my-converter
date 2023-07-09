@@ -83,7 +83,6 @@ app.get('/get_file_names', async (req, res) => {
 })
 
 app.post('/upload_image', async (req, res) => {
-  console.log("upload_image")
   try {
       if(!req.files) {
           res.send({
